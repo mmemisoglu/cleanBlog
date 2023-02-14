@@ -1,20 +1,30 @@
 import express from "express";
-import nodemon from "nodemon";
-import path from "path";
+import mongoose from 'mongoose';
 import ejs from "ejs";
+import Blog from "./models/Blogs.mjs";
 
 const app = express();
+
+mongoose.set("strictQuery", false); //Required for 'mongoose.connect()'
+mongoose.connect("mongodb://localhost/cleanblog-test-db", {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 //Template Engine
 app.set("view engine", "ejs");
 
 //Middleware
-const __dirname = path.resolve;
 app.use(express.static("public"));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 //Routes
-app.get("/", (req, res) => {
-  res.render("index");
+app.get("/", async (req, res) => {
+  const blogs = await Blog.find({})
+  res.render("index",{
+    blogs
+  });
 });
 app.get("/about", (req, res) => {
   res.render("about");
@@ -25,6 +35,11 @@ app.get("/post", (req, res) => {
 app.get("/add_post", (req, res) => {
   res.render("add_post");
 });
+app.post('/blogs', async (req,res) =>{
+  await Blog.create(req.body)
+  res.redirect('/');
+})
+
 
 const port = 3000;
 app.listen(port, () => {
