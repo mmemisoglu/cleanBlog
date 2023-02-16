@@ -23,12 +23,12 @@
       <div class="col-lg-8 col-md-10 mx-auto">
 
 
-        <form method="POST" action="/blogs" novalidate >
+        <form method="POST" action="/blog/edit/<%=blog._id%>?_method=PUT" novalidate >
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <label>Post Title</label>
 
-              <input type="text" class="form-control" placeholder="Title" name="title" required >
+              <input type="text" class="form-control" value="<%= blog.title%>" placeholder="Title" name="title" required >
               
               <p class="help-block text-danger"></p>
             </div>
@@ -37,7 +37,7 @@
             <div class="form-group floating-label-form-group controls">
               
               <label>Post Detail</label>
-              <textarea rows="5" class="form-control" placeholder="Detail" name="detail" required ></textarea>
+              <textarea rows="5" class="form-control" placeholder="Detail" name="detail" required ><%= blog.detail %> </textarea>
               
               <p class="help-block text-danger"></p>
             </div>

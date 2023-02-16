@@ -1,5 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
+import methodOverride from "method-override";
 import ejs from "ejs";
 
 import * as postController from "./controllers/postController.mjs";
@@ -20,18 +21,21 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(methodOverride('_method',{
+  methods:['POST','GET']
+}));
 
 //Routes
 
 //Post Controller
 app.get("/", postController.getAllPost);
-app.get("/post/:id", postController.getPost);
-app.post("/blogs", postController.createPost);
-
+app.get("/blog/:id", postController.getPost);
+app.post("/blog/create", postController.createPost);
+app.put('/blog/edit/:id',postController.editPost);
 //Page Controller
-app.get("/add_post", pageController.getAddPage);
-app.get("/about", pageController.getAboutPage);
-app.get("/post/edit/:id",pageController.getPostEdit);
+app.get("/add_blog_page", pageController.getAddPage);
+app.get("/about_page", pageController.getAboutPage);
+app.get("/blog_edit_page/:id",pageController.getPostEdit);
 
 
 //Server listen
