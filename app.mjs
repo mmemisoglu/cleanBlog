@@ -32,6 +32,7 @@ app.get("/", postController.getAllPost);
 app.get("/blog/:id", postController.getPost);
 app.post("/blog/create", postController.createPost);
 app.put('/blog/edit/:id',postController.editPost);
+app.delete('/blog/delete/:id', postController.deletePost)
 //Page Controller
 app.get("/add_blog_page", pageController.getAddPage);
 app.get("/about_page", pageController.getAboutPage);

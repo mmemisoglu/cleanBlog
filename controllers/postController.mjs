@@ -26,3 +26,8 @@ export const editPost = async (req, res) => {
     await blog.save();
     res.redirect(`/blog/${req.params.id}`);
 };
+
+export const deletePost = async (req,res) => {
+  await Blog.findByIdAndRemove(req.params.id)
+  res.redirect('/');
+}

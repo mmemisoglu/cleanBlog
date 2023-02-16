@@ -13,8 +13,8 @@
               <a href="#">Start Mustafa</a>
               on <%= blog.dateCreated%></span>
               <div class="mt-5">
-                <a href="/blog_edit_page/<%= blog._id %>" type="submit" class="btn btn-primary mx-3">Update</a>
-                <a type="submit" class="btn btn-danger">Delete</a>  
+                <a href="/blog_edit_page/<%=blog._id%>" type="submit" class="btn btn-primary mx-3">Update</a>
+                <a href="/blog/delete/<%=blog._id%>?_method=DELETE" type="submit" class="btn btn-danger">Delete</a>  
               </div>
             </div>
         </div>
