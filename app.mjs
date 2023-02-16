@@ -1,16 +1,18 @@
 import express from "express";
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 import ejs from "ejs";
-import Blog from "./models/Blogs.mjs";
 
+import * as postController from "./controllers/postController.mjs";
+import * as pageController from "./controllers/pageController.mjs";
+
+//Start Express
 const app = express();
-
+//Connect to Database
 mongoose.set("strictQuery", false); //Required for 'mongoose.connect()'
 mongoose.connect("mongodb://localhost/cleanblog-test-db", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
-
 //Template Engine
 app.set("view engine", "ejs");
 
@@ -20,33 +22,19 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 //Routes
-app.get("/", async (req, res) => {
-  const blogs = await Blog.find({})
-  res.render("index",{
-    blogs
-  });
-});
-app.get("/post/:id", async (req, res) => {
-  const blog = await Blog.findById(req.params.id)
-  res.render('post',{
-    blog
-  });
-});
-app.get("/about", (req, res) => {
-  res.render("about");
-});
-app.get("/post", (req, res) => {
-  res.render("post");
-});
-app.get("/add_post", (req, res) => {
-  res.render("add_post");
-});
-app.post('/blogs', async (req,res) =>{
-  await Blog.create(req.body)
-  res.redirect('/');
-})
+
+//Post Controller
+app.get("/", postController.getAllPost);
+app.get("/post/:id", postController.getPost);
+app.post("/blogs", postController.createPost);
+
+//Page Controller
+app.get("/add_post", pageController.getAddPage);
+app.get("/about", pageController.getAboutPage);
+app.get("/post/edit/:id",pageController.getPostEdit);
 
 
+//Server listen
 const port = 3000;
 app.listen(port, () => {
   console.log(`Sunucu ${port} portunda çalışıyor.`);
