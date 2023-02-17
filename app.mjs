@@ -13,7 +13,11 @@ mongoose.set("strictQuery", false); //Required for 'mongoose.connect()'
 mongoose.connect("mongodb://localhost/cleanblog-test-db", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-});
+}).then(() => {
+console.log("DB CONNECTED!")})
+.catch((err) => {
+console.log(err)})
+
 //Template Engine
 app.set("view engine", "ejs");
 
